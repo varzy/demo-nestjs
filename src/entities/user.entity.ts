@@ -1,4 +1,4 @@
-import { Post } from 'src/resources/posts/post.entity';
+import { Post } from 'src/entities/post.entity';
 import {
   BeforeInsert,
   Column,
