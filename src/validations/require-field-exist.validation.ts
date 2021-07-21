@@ -17,7 +17,6 @@ export class RequireFieldExist implements ValidatorConstraintInterface {
 
   defaultMessage(args: ValidationArguments) {
     const [table, filed] = args.constraints;
-    // here you can provide default error message if validation failed
-    return `The ${filed} is not existed in table ${table}.`;
+    return `The ${args.property} is not existed in table ${table} of ${filed}.`;
   }
 }
