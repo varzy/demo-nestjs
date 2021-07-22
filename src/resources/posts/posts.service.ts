@@ -7,6 +7,7 @@ import { Post } from '../../entities/post.entity';
 import { User } from '../../entities/user.entity';
 import { Category } from '../../entities/category.entity';
 import { Tag } from '../../entities/tag.entity';
+import { PostTag } from "../../entities/post-tag.entity";
 
 @Injectable()
 export class PostsService {
@@ -15,8 +16,9 @@ export class PostsService {
     private postsRepository: Repository<Post>,
   ) {}
 
-  async create(createPostDto: CreatePostDto, user: User, category: Category, tags: Tag[]) {
-    const post = await this.postsRepository.create({ ...createPostDto, user, category, tags });
+  async create(createPostDto: CreatePostDto, postTags: PostTag[]) {
+    const post = await this.postsRepository.create({ ...createPostDto, postTags });
+    console.log(post);
     return await this.postsRepository.save(post);
   }
 
@@ -34,12 +36,9 @@ export class PostsService {
   async update(
     id: number,
     updatePostDto: UpdatePostDto,
-    user: User,
-    category: Category,
-    tags: Tag[],
   ) {
     await this.findOne(id);
-    return await this.postsRepository.update(id, { ...updatePostDto, user, category, tags });
+    return await this.postsRepository.update(id, { ...updatePostDto });
   }
 
   async remove(id: number) {

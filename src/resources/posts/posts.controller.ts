@@ -5,6 +5,7 @@ import { UpdatePostDto } from './dto/update-post.dto';
 import { UsersService } from '../users/users.service';
 import { CategoriesService } from '../categories/categories.service';
 import { TagsService } from '../tags/tags.service';
+import { PostTag } from "../../entities/post-tag.entity";
 
 @Controller('posts')
 export class PostsController {
@@ -19,12 +20,14 @@ export class PostsController {
   async create(
     @Body() createPostDto: CreatePostDto
   ) {
-    console.log(createPostDto);
-    const user = await this.usersService.findOne(createPostDto.user_id);
-    const category = await this.categoriesService.findOne(createPostDto.category_id);
-    const tags = await this.tagsService.findByIds(createPostDto.tags);
+    const tagIds = createPostDto.tags;
+    const postTags = tagIds.map(tagId => {
+      const postTag = new PostTag();
+      postTag.tag_id = tagId;
+      return postTag;
+    });
 
-    return await this.postsService.create(createPostDto, user, category, tags);
+    return await this.postsService.create(createPostDto, postTags);
   }
 
   @Get()
@@ -39,11 +42,11 @@ export class PostsController {
 
   @Put(':id')
   async update(@Param('id') id: number, @Body() updatePostDto: UpdatePostDto) {
-    const user = await this.usersService.findOne(updatePostDto.user_id);
-    const category = await this.categoriesService.findOne(updatePostDto.category_id);
-    const tags = await this.tagsService.findByIds(updatePostDto.tags);
+    // const user = await this.usersService.findOne(updatePostDto.user_id);
+    // const category = await this.categoriesService.findOne(updatePostDto.category_id);
+    // const tags = await this.tagsService.findByIds(updatePostDto.tags);
 
-    return await this.postsService.update(id, updatePostDto, user, category, tags);
+    return await this.postsService.update(id, updatePostDto);
   }
 
   @Delete(':id')

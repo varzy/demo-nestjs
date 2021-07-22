@@ -5,7 +5,7 @@ module.exports = {
   username: 'root',
   password: '',
   database: 'dm_nest',
-  logging: ["error"],
+  logging: ['error'],
   entities: ['dist/entities/**/*.entity{.ts,.js}'],
   migrations: ['dist/migrations/*.js'],
   cli: { migrationsDir: 'src/migrations' },

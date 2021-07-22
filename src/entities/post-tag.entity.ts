@@ -11,11 +11,11 @@ export class PostTag extends Base {
   @Column({ type: 'int', unsigned: true })
   tag_id: number;
 
-  @ManyToOne(() => Tag, (tag) => tag.posts)
+  @ManyToOne(() => Tag, (tag) => tag.postTags)
   @JoinColumn({ name: 'post_id' })
   tag: Tag;
 
-  @ManyToOne(() => Post, (post) => post.tags)
+  @ManyToOne(() => Post, (post) => post.postTags)
   @JoinColumn({ name: 'tag_id' })
   post: Post;
 }

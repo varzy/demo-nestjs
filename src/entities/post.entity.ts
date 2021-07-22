@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, JoinTable } from "typeorm";
 import { User } from './user.entity';
 import { Category } from './category.entity';
 import { PostTag } from './post-tag.entity';
@@ -6,6 +6,12 @@ import { Base } from './base.entity';
 
 @Entity('posts')
 export class Post extends Base {
+  @Column({ type: 'int', unsigned: true })
+  user_id: number;
+
+  @Column({ type: 'int', unsigned: true })
+  category_id: number;
+
   @Column({ type: 'varchar' })
   title: string;
 
@@ -21,5 +27,6 @@ export class Post extends Base {
   category: Category;
 
   @OneToMany(() => PostTag, (postTag) => postTag.post)
-  tags: PostTag[];
+  @JoinColumn({ referencedColumnName: 'post_id' })
+  postTags: PostTag[];
 }
