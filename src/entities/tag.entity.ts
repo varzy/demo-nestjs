@@ -1,30 +1,18 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  ManyToMany,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
-import { Post } from './post.entity';
+import { Column, Entity, OneToMany } from 'typeorm';
+import { PostTag } from './post-tag.entity';
+import { Base } from './base.entity';
 
 @Entity('tags')
-export class Tag {
-  @PrimaryGeneratedColumn({ unsigned: true })
-  id: number;
-
+export class Tag extends Base {
   @Column({ type: 'varchar', length: 64, unique: true })
   name: string;
 
   @Column({ type: 'varchar', length: 128 })
   label: string;
 
-  @CreateDateColumn()
-  created_at: Date;
+  // @ManyToMany(() => Post, (post) => post.tags)
+  // posts: Post[];
 
-  @UpdateDateColumn()
-  updated_at: Date;
-
-  @ManyToMany(() => Post, (post) => post.tags)
-  posts: Post[];
+  @OneToMany(() => PostTag, (postTag) => postTag.tag)
+  posts: PostTag[];
 }

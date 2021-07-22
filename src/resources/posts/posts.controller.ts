@@ -16,10 +16,14 @@ export class PostsController {
   ) {}
 
   @Post()
-  async create(@Body() createPostDto: CreatePostDto) {
+  async create(
+    @Body() createPostDto: CreatePostDto
+  ) {
+    console.log(createPostDto);
     const user = await this.usersService.findOne(createPostDto.user_id);
     const category = await this.categoriesService.findOne(createPostDto.category_id);
     const tags = await this.tagsService.findByIds(createPostDto.tags);
+
     return await this.postsService.create(createPostDto, user, category, tags);
   }
 
@@ -35,7 +39,11 @@ export class PostsController {
 
   @Put(':id')
   async update(@Param('id') id: number, @Body() updatePostDto: UpdatePostDto) {
-    return await this.postsService.update(id, updatePostDto);
+    const user = await this.usersService.findOne(updatePostDto.user_id);
+    const category = await this.categoriesService.findOne(updatePostDto.category_id);
+    const tags = await this.tagsService.findByIds(updatePostDto.tags);
+
+    return await this.postsService.update(id, updatePostDto, user, category, tags);
   }
 
   @Delete(':id')

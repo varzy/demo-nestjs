@@ -20,20 +20,26 @@ export class PostsService {
     return await this.postsRepository.save(post);
   }
 
-  async findAll() {
-    return await this.postsRepository.find({ relations: ['user'] });
+  async findAll(relations = []) {
+    return await this.postsRepository.find({ relations });
   }
 
-  async findOne(id: number) {
-    const post = await this.postsRepository.findOne(id, { relations: ['user'] });
+  async findOne(id: number, relations = []) {
+    const post = await this.postsRepository.findOne(id, { relations });
     if (!post) throw new NotFoundException();
 
     return post;
   }
 
-  async update(id: number, updatePostDto: UpdatePostDto) {
+  async update(
+    id: number,
+    updatePostDto: UpdatePostDto,
+    user: User,
+    category: Category,
+    tags: Tag[],
+  ) {
     await this.findOne(id);
-    return await this.postsRepository.update(id, updatePostDto);
+    return await this.postsRepository.update(id, { ...updatePostDto, user, category, tags });
   }
 
   async remove(id: number) {

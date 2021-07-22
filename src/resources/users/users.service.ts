@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../../entities/user.entity';
 import * as bcrypt from 'bcrypt';
+import { Post } from "../../entities/post.entity";
 
 @Injectable()
 export class UsersService {
@@ -21,12 +22,12 @@ export class UsersService {
     return this.usersRepository.save({ ...userDto, password: hash });
   }
 
-  async findAll() {
-    return await this.usersRepository.find({ relations: ['posts'] });
+  async findAll(relations = []) {
+    return await this.usersRepository.find({ relations });
   }
 
-  async findOne(id: number) {
-    const user = await this.usersRepository.findOne(id);
+  async findOne(id: number, relations = []) {
+    const user = await this.usersRepository.findOne(id, { relations });
     if (!user) throw new NotFoundException('用户不存在');
 
     return user;

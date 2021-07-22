@@ -1,34 +1,16 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  JoinColumn,
-  ManyToMany,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-  JoinTable,
-} from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { User } from './user.entity';
 import { Category } from './category.entity';
-import { Tag } from './tag.entity';
+import { PostTag } from './post-tag.entity';
+import { Base } from './base.entity';
 
 @Entity('posts')
-export class Post {
-  @PrimaryGeneratedColumn({ unsigned: true })
-  id: number;
-
-  @Column({ type: 'varchar', length: 128 })
+export class Post extends Base {
+  @Column({ type: 'varchar' })
   title: string;
 
   @Column({ type: 'text' })
   body: string;
-
-  @CreateDateColumn()
-  created_at: Date;
-
-  @UpdateDateColumn()
-  updated_at: Date;
 
   @ManyToOne(() => User, (user) => user.posts)
   @JoinColumn({ name: 'user_id' })
@@ -38,7 +20,6 @@ export class Post {
   @JoinColumn({ name: 'category_id' })
   category: Category;
 
-  @ManyToMany(() => Tag, (tag) => tag.posts)
-  @JoinTable()
-  tags: Tag[];
+  @OneToMany(() => PostTag, (postTag) => postTag.post)
+  tags: PostTag[];
 }

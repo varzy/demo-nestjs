@@ -1,29 +1,14 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  OneToMany,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
 import { Post } from './post.entity';
+import { Base } from './base.entity';
 
 @Entity('categories')
-export class Category {
-  @PrimaryGeneratedColumn({ unsigned: true })
-  id: number;
-
+export class Category extends Base {
   @Column({ type: 'varchar', length: 64, unique: true })
   name: string;
 
   @Column({ type: 'varchar', length: 128 })
   label: string;
-
-  @CreateDateColumn()
-  created_at: Date;
-
-  @UpdateDateColumn()
-  updated_at: Date;
 
   @OneToMany(() => Post, (post) => post.category)
   posts: Post[];
