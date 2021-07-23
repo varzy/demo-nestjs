@@ -1,12 +1,12 @@
-import { IsArray, IsNumberString, IsString, Validate } from 'class-validator';
+import { IsArray, IsNumber, IsNumberString, IsString, Validate } from 'class-validator';
 import { RequireFieldExist } from '../../../validations/require-field-exist.validation';
 
 export class CreatePostDto {
-  @IsNumberString()
+  @IsNumber()
   @Validate(RequireFieldExist, ['users', 'id'])
-  readonly user_id: number;
+  readonly author_id: number;
 
-  @IsNumberString()
+  @IsNumber()
   @Validate(RequireFieldExist, ['categories', 'id'])
   readonly category_id: number;
 

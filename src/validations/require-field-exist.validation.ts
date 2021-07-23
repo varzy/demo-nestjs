@@ -3,16 +3,19 @@ import {
   ValidatorConstraintInterface,
   ValidationArguments,
 } from 'class-validator';
-import { getConnection } from 'typeorm';
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
 
 @ValidatorConstraint({ async: true })
 export class RequireFieldExist implements ValidatorConstraintInterface {
   async validate(value: any, args: ValidationArguments) {
     const [table, field] = args.constraints;
-    const connection = await getConnection();
-    const rawData = await connection.query(`SELECT * FROM ${table} WHERE ${field} = ${value}`);
+    const result = await prisma.$queryRaw(
+      `SELECT * FROM ${table} WHERE ${field} = ${value} LIMIT 1;`,
+    );
 
-    return !!rawData.length;
+    return !!result.length;
   }
 
   defaultMessage(args: ValidationArguments) {

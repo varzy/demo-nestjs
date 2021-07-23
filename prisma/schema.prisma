@@ -13,6 +13,7 @@ generator client {
 model User {
   id         Int      @id @default(autoincrement())
   email      String   @unique
+  password   String
   nickname   String
   created_at DateTime @default(now())
   updated_at DateTime @default(now()) @updatedAt
@@ -31,10 +32,11 @@ model Post {
   created_at  DateTime @default(now())
   updated_at  DateTime @default(now()) @updatedAt
 
-  author   User          @relation(fields: [author_id], references: [id])
-  category Category      @relation(fields: [category_id], references: [id])
-  tags     PostsToTags[]
+  author   User      @relation(fields: [author_id], references: [id])
+  category Category  @relation(fields: [category_id], references: [id])
+  tags     PostTag[]
 
+  @@index([author_id, category_id])
   @@map(name: "posts")
 }
 
@@ -57,20 +59,21 @@ model Tag {
   created_at DateTime @default(now())
   updated_at DateTime @default(now()) @updatedAt
 
-  posts PostsToTags[]
+  posts PostTag[]
 
   @@map(name: "tags")
 }
 
-model PostsToTags {
+model PostTag {
   id         Int      @id @default(autoincrement())
   post_id    Int
   tag_id     Int
   created_at DateTime @default(now())
   updated_at DateTime @default(now()) @updatedAt
 
-  post Post @relation(fields: [post_id], references: [id])
-  tag  Tag  @relation(fields: [tag_id], references: [id])
+  Post Post @relation(fields: [post_id], references: [id])
+  Tag  Tag  @relation(fields: [tag_id], references: [id])
 
-  @@map("posts_to_tags")
+  @@index([post_id, tag_id])
+  @@map("post_tag")
 }

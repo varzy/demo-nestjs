@@ -5,9 +5,7 @@ import { PrismaService } from '../../prisma/prisma.service';
 
 @Injectable()
 export class CategoriesService {
-  constructor(
-    private prismaService: PrismaService,
-  ) {}
+  constructor(private readonly prismaService: PrismaService) {}
 
   async create(createCategoryDto: CreateCategoryDto) {
     return await this.prismaService.category.create({ data: createCategoryDto });
@@ -32,7 +30,6 @@ export class CategoriesService {
   }
 
   async remove(id: number) {
-    await this.findOne(id);
     return await this.prismaService.category.delete({ where: { id } });
   }
 }

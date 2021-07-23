@@ -1,45 +1,56 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
-import { Post } from '../../entities/post.entity';
-import { User } from '../../entities/user.entity';
-import { Category } from '../../entities/category.entity';
-import { Tag } from '../../entities/tag.entity';
-import { PostTag } from '../../entities/post-tag.entity';
+import { PrismaService } from '../../prisma/prisma.service';
 
 @Injectable()
 export class PostsService {
-  constructor(
-    @InjectRepository(Post)
-    private postsRepository: Repository<Post>,
-  ) {}
+  constructor(private readonly prismaService: PrismaService) {}
 
-  async create(createPostDto: CreatePostDto, postTags: PostTag[]) {
-    const post = await this.postsRepository.create({ ...createPostDto, postTags });
-    console.log(post);
-    return await this.postsRepository.save(post);
+  async create(createPostDto: CreatePostDto) {
+    return await this.prismaService.post.create({
+      data: {
+        title: createPostDto.title,
+        body: createPostDto.body,
+        author: { connect: { id: createPostDto.author_id } },
+        category: { connect: { id: createPostDto.category_id } },
+        tags: { connect: createPostDto.tags.map((tag) => ({ id: tag })) },
+      },
+      include: { author: true, category: true, tags: true },
+    });
   }
 
-  async findAll(relations = []) {
-    return await this.postsRepository.find({ relations });
+  async findAll() {
+    return await this.prismaService.post.findMany({
+      include: { author: true, category: true, tags: true },
+    });
   }
 
-  async findOne(id: number, relations = []) {
-    const post = await this.postsRepository.findOne(id, { relations });
+  async findOne(id: number) {
+    const post = await this.prismaService.post.findUnique({
+      where: { id },
+      include: { author: true, category: true, tags: true },
+    });
     if (!post) throw new NotFoundException();
 
     return post;
   }
 
   async update(id: number, updatePostDto: UpdatePostDto) {
-    await this.findOne(id);
-    return await this.postsRepository.update(id, { ...updatePostDto });
+    return await this.prismaService.post.update({
+      where: { id },
+      data: {
+        title: updatePostDto.title ?? null,
+        body: updatePostDto.body ?? null,
+        author: { connect: { id: updatePostDto.author_id } },
+        category: { connect: { id: updatePostDto.category_id } },
+        tags: { connect: updatePostDto.tags?.map((tag) => ({ tag_id: tag })) },
+      },
+      include: { author: true, category: true, tags: true },
+    });
   }
 
   async remove(id: number) {
-    await this.findOne(id);
-    return await this.postsRepository.delete(id);
+    return await this.prismaService.post.delete({ where: { id } });
   }
 }

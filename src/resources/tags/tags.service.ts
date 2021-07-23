@@ -1,43 +1,36 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { UpdateTagDto } from './dto/update-tag.dto';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Tag } from '../../entities/tag.entity';
-import { Repository } from 'typeorm';
+import { PrismaService } from '../../prisma/prisma.service';
 
 @Injectable()
 export class TagsService {
-  constructor(
-    @InjectRepository(Tag)
-    private tagRepository: Repository<Tag>,
-  ) {}
+  constructor(private readonly prismaService: PrismaService) {}
 
   async create(createTagDto: CreateTagDto) {
-    return await this.tagRepository.save(createTagDto);
+    return await this.prismaService.tag.create({ data: createTagDto });
   }
 
   async findAll() {
-    return await this.tagRepository.find({ relations: ['posts'] });
+    return await this.prismaService.tag.findMany({ include: { posts: true } });
   }
 
   async findOne(id: number) {
-    const tag = await this.tagRepository.findOne(id);
+    const tag = await this.prismaService.tag.findUnique({ where: { id } });
     if (!tag) throw new NotFoundException();
 
     return tag;
   }
 
   async update(id: number, updateTagDto: UpdateTagDto) {
-    await this.findOne(id);
-    return this.tagRepository.update(id, updateTagDto);
+    return this.prismaService.tag.update({ where: { id }, data: updateTagDto });
   }
 
   async remove(id: number) {
-    await this.findOne(id);
-    return this.tagRepository.delete(id);
+    return this.prismaService.tag.delete({ where: { id } });
   }
 
   async findByIds(ids: number[]) {
-    return this.tagRepository.findByIds(ids);
+    return this.prismaService.tag.findMany({ where: { id: { in: ids } } });
   }
 }
