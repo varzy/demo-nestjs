@@ -1,7 +1,7 @@
-import { Column, Entity, JoinColumn, ManyToMany, OneToMany } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToMany, OneToMany } from 'typeorm';
 import { PostTag } from './post-tag.entity';
 import { Base } from './base.entity';
-import { Post } from "./post.entity";
+import { Post } from './post.entity';
 
 @Entity('tags')
 export class Tag extends Base {

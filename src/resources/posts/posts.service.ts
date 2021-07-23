@@ -7,7 +7,7 @@ import { Post } from '../../entities/post.entity';
 import { User } from '../../entities/user.entity';
 import { Category } from '../../entities/category.entity';
 import { Tag } from '../../entities/tag.entity';
-import { PostTag } from "../../entities/post-tag.entity";
+import { PostTag } from '../../entities/post-tag.entity';
 
 @Injectable()
 export class PostsService {
@@ -33,10 +33,7 @@ export class PostsService {
     return post;
   }
 
-  async update(
-    id: number,
-    updatePostDto: UpdatePostDto,
-  ) {
+  async update(id: number, updatePostDto: UpdatePostDto) {
     await this.findOne(id);
     return await this.postsRepository.update(id, { ...updatePostDto });
   }

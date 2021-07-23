@@ -1,39 +1,38 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
-import { Repository } from 'typeorm';
-import { Category } from '../../entities/category.entity';
-import { InjectRepository } from '@nestjs/typeorm';
+import { PrismaService } from '../../prisma/prisma.service';
 
 @Injectable()
 export class CategoriesService {
   constructor(
-    @InjectRepository(Category)
-    private categoriesRepository: Repository<Category>,
+    private prismaService: PrismaService,
   ) {}
 
   async create(createCategoryDto: CreateCategoryDto) {
-    return await this.categoriesRepository.save(createCategoryDto);
+    return await this.prismaService.category.create({ data: createCategoryDto });
   }
 
   async findAll() {
-    return await this.categoriesRepository.find({ relations: ['posts'] });
+    return await this.prismaService.category.findMany({ include: { posts: true } });
   }
 
   async findOne(id: number) {
-    const category = await this.categoriesRepository.findOne(id);
+    const category = await this.prismaService.category.findUnique({ where: { id } });
     if (!category) throw new NotFoundException();
 
     return category;
   }
 
   async update(id: number, updateCategoryDto: UpdateCategoryDto) {
-    await this.findOne(id);
-    return this.categoriesRepository.update(id, updateCategoryDto);
+    return await this.prismaService.category.update({
+      where: { id },
+      data: updateCategoryDto,
+    });
   }
 
   async remove(id: number) {
     await this.findOne(id);
-    return this.categoriesRepository.delete(id);
+    return await this.prismaService.category.delete({ where: { id } });
   }
 }

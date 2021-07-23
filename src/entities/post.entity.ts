@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, JoinTable } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, JoinTable } from 'typeorm';
 import { User } from './user.entity';
 import { Category } from './category.entity';
 import { PostTag } from './post-tag.entity';

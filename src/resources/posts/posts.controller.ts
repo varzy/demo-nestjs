@@ -5,7 +5,7 @@ import { UpdatePostDto } from './dto/update-post.dto';
 import { UsersService } from '../users/users.service';
 import { CategoriesService } from '../categories/categories.service';
 import { TagsService } from '../tags/tags.service';
-import { PostTag } from "../../entities/post-tag.entity";
+import { PostTag } from '../../entities/post-tag.entity';
 
 @Controller('posts')
 export class PostsController {
@@ -17,11 +17,9 @@ export class PostsController {
   ) {}
 
   @Post()
-  async create(
-    @Body() createPostDto: CreatePostDto
-  ) {
+  async create(@Body() createPostDto: CreatePostDto) {
     const tagIds = createPostDto.tags;
-    const postTags = tagIds.map(tagId => {
+    const postTags = tagIds.map((tagId) => {
       const postTag = new PostTag();
       postTag.tag_id = tagId;
       return postTag;
