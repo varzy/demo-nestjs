@@ -14,7 +14,7 @@ export class PostsService {
         body: createPostDto.body,
         author: { connect: { id: createPostDto.author_id } },
         category: { connect: { id: createPostDto.category_id } },
-        tags: { connect: createPostDto.tags.map((tag) => ({ id: tag })) },
+        tags: { connect: createPostDto.tags.map((tagId) => ({ id: tagId })) },
       },
       include: { author: true, category: true, tags: true },
     });
@@ -40,11 +40,11 @@ export class PostsService {
     return await this.prismaService.post.update({
       where: { id },
       data: {
-        title: updatePostDto.title ?? null,
-        body: updatePostDto.body ?? null,
+        title: updatePostDto.title,
+        body: updatePostDto.body,
         author: { connect: { id: updatePostDto.author_id } },
         category: { connect: { id: updatePostDto.category_id } },
-        tags: { connect: updatePostDto.tags?.map((tag) => ({ tag_id: tag })) },
+        tags: { set: updatePostDto.tags?.map((tagId) => ({ id: tagId })) },
       },
       include: { author: true, category: true, tags: true },
     });

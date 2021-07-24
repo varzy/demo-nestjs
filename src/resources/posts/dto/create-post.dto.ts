@@ -1,4 +1,4 @@
-import { IsArray, IsNumber, IsNumberString, IsString, Validate } from 'class-validator';
+import { IsArray, IsNumber, IsString, Validate } from 'class-validator';
 import { RequireFieldExist } from '../../../validations/require-field-exist.validation';
 
 export class CreatePostDto {

@@ -42,7 +42,7 @@ model Tag {
   created_at DateTime @default(now())
   updated_at DateTime @default(now()) @updatedAt
 
-  posts Post[] @relation("post_tag")
+  posts PostTag[]
 
   @@map(name: "tags")
 }
@@ -56,9 +56,23 @@ model Post {
   created_at  DateTime @default(now())
   updated_at  DateTime @default(now()) @updatedAt
 
-  author   User     @relation(fields: [author_id], references: [id])
-  category Category @relation(fields: [category_id], references: [id])
-  tags     Tag[]    @relation("post_tag")
+  author   User      @relation(fields: [author_id], references: [id])
+  category Category  @relation(fields: [category_id], references: [id])
+  tags     PostTag[]
 
+  @@index([author_id, category_id])
   @@map(name: "posts")
+}
+
+model PostTag {
+  post_id    Int
+  tag_id     Int
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  post Post @relation(fields: [post_id], references: [id])
+  tag  Tag  @relation(fields: [tag_id], references: [id])
+
+  @@id([post_id, tag_id])
+  @@map("post_tag")
 }
