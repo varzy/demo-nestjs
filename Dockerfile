@@ -7,8 +7,8 @@ RUN yarn build
 RUN npx prisma generate
 
 FROM node:alpine
+ENV DATABASE_URL=
 WORKDIR /app
 COPY --from=builder /app ./
 EXPOSE 3000
-ENV DATABASE_URL=
-CMD npx prisma migrate dev && node dist/main
+CMD npx prisma migrate deploy && node dist/main
