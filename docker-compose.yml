@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+  nest-blog:
+    build: .
+    image: zy/nest-blog
+    container_name: nest_blog
+    ports:
+      - "3000:3000"
+    links:
+      - mysql
+    environment:
+      DATABASE_URL=mysql://root:pswd@mysql:3306/nest_blog
+
+networks:
+  default:
+    external: true
+    name: basic_default
