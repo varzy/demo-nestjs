@@ -42,7 +42,7 @@ model Tag {
   created_at DateTime @default(now())
   updated_at DateTime @default(now()) @updatedAt
 
-  posts PostTag[]
+  posts Post[] @relation("post_tag")
 
   @@map("tags")
 }
@@ -56,24 +56,11 @@ model Post {
   created_at  DateTime @default(now())
   updated_at  DateTime @default(now()) @updatedAt
 
-  author   User      @relation(fields: [author_id], references: [id])
-  category Category  @relation(fields: [category_id], references: [id])
-  tags     PostTag[]
+  author   User     @relation(fields: [author_id], references: [id])
+  category Category @relation(fields: [category_id], references: [id])
+  tags     Tag[]    @relation("post_tag")
 
   @@map("posts")
-}
-
-model PostTag {
-  id         Int      @id @default(autoincrement())
-  post_id    Int
-  tag_id     Int
-  created_at DateTime @default(now())
-  updated_at DateTime @default(now()) @updatedAt
-
-  post Post @relation(fields: [post_id], references: [id])
-  tag  Tag  @relation(fields: [tag_id], references: [id])
-
-  @@map("post_tag")
 }
 
 model Trip {
