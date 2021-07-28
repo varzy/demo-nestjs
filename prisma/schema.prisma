@@ -20,7 +20,7 @@ model User {
 
   posts Post[]
 
-  @@map(name: "users")
+  @@map("users")
 }
 
 model Category {
@@ -32,7 +32,7 @@ model Category {
 
   posts Post[]
 
-  @@map(name: "categories")
+  @@map("categories")
 }
 
 model Tag {
@@ -42,9 +42,9 @@ model Tag {
   created_at DateTime @default(now())
   updated_at DateTime @default(now()) @updatedAt
 
-  posts Post[] @relation("post_tag")
+  posts PostTag[]
 
-  @@map(name: "tags")
+  @@map("tags")
 }
 
 model Post {
@@ -56,11 +56,24 @@ model Post {
   created_at  DateTime @default(now())
   updated_at  DateTime @default(now()) @updatedAt
 
-  author   User     @relation(fields: [author_id], references: [id])
-  category Category @relation(fields: [category_id], references: [id])
-  tags     Tag[]    @relation("post_tag")
+  author   User      @relation(fields: [author_id], references: [id])
+  category Category  @relation(fields: [category_id], references: [id])
+  tags     PostTag[]
 
-  @@map(name: "posts")
+  @@map("posts")
+}
+
+model PostTag {
+  id         Int      @id @default(autoincrement())
+  post_id    Int
+  tag_id     Int
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  post Post @relation(fields: [post_id], references: [id])
+  tag  Tag  @relation(fields: [tag_id], references: [id])
+
+  @@map("post_tag")
 }
 
 model Trip {
@@ -71,5 +84,5 @@ model Trip {
   created_at DateTime @default(now())
   updated_at DateTime @default(now()) @updatedAt
 
-  @@map(name: "trips")
+  @@map("trips")
 }

@@ -14,7 +14,11 @@ export class PostsService {
         body: createPostDto.body,
         author: { connect: { id: createPostDto.author_id } },
         category: { connect: { id: createPostDto.category_id } },
-        tags: { connect: createPostDto.tags.map((tagId) => ({ id: tagId })) },
+        tags: {
+          create: createPostDto.tags.map((tagId) => ({
+            tag: { connect: { id: tagId } },
+          })),
+        },
       },
       include: { author: true, category: true, tags: true },
     });
@@ -37,6 +41,14 @@ export class PostsService {
   }
 
   async update(id: number, updatePostDto: UpdatePostDto) {
+    // @TODO: 需要解决多对多更新的问题
+
+    if (updatePostDto.tags) {
+      updatePostDto.tags.map(async (tagId) => {
+        await this.prismaService.postTag.update({ where: { id }, data: { tag_id: tagId } });
+      });
+    }
+
     return await this.prismaService.post.update({
       where: { id },
       data: {
@@ -44,7 +56,7 @@ export class PostsService {
         body: updatePostDto.body,
         author: { connect: { id: updatePostDto.author_id } },
         category: { connect: { id: updatePostDto.category_id } },
-        tags: { set: updatePostDto.tags?.map((tagId) => ({ id: tagId })) },
+        // tags: { set: updatePostDto.tags?.map((tagId) => ({ tag: { connect:tagId } })) },
       },
       include: { author: true, category: true, tags: true },
     });
