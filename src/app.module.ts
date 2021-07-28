@@ -7,6 +7,7 @@ import { CategoriesModule } from './resources/categories/categories.module';
 import { TagsModule } from './resources/tags/tags.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { AuthModule } from './resources/auth/auth.module';
+import { TripsModule } from './resources/trips/trips.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { AuthModule } from './resources/auth/auth.module';
     CategoriesModule,
     TagsModule,
     AuthModule,
+    TripsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
