@@ -12,15 +12,30 @@ generator client {
 
 model User {
   id         Int      @id @default(autoincrement())
-  email      String   @unique
+  username   String   @unique @db.VarChar(64)
   password   String
-  nickname   String
+  email      String?  @unique
+  phone      String?  @unique
+  nickname   String?
   created_at DateTime @default(now())
   updated_at DateTime @default(now()) @updatedAt
 
   posts Post[]
+  roles Role[] @relation("user_role")
 
   @@map("users")
+}
+
+model Role {
+  id         Int      @id @default(autoincrement())
+  name       String   @unique
+  label      String
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  users User[] @relation("user_role")
+
+  @@map("roles")
 }
 
 model Category {

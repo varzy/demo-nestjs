@@ -3,30 +3,15 @@ version: "3.8"
 services:
   nest:
     build: .
-    image: zy/nest-blog:0.0.1
+    image: zy/nest-blog:0.0.4
     container_name: nest
     ports:
-      - "3000:3000"
-    depends_on:
-      - mysql
+      - "3001:3000"
     environment:
       DATABASE_URL: mysql://root:pswd@mysql:3306/nest_blog_prod
     restart: "always"
 
-  mysql:
-    image: mysql
-    container_name: mysql
-    ports:
-      - "3307:3306"
-    volumes:
-      - nest-blog/conf:/etc/mysql/my.cnf
-      - nest-blog/data:/var/lib/mysql
-
-# networks:
-#   default:
-#     external: true
-#     name: basic_default
-
-volumes:
-  mysql:
-    name: nest-blog
+networks:
+ default:
+   external: true
+   name: basic_default
