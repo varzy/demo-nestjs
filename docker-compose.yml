@@ -3,12 +3,12 @@ version: "3.8"
 services:
   nest:
     build: .
-    image: zy/nest-blog:0.0.4
+    image: zy/dm-nest:0.0.1
     container_name: nest
     ports:
       - "3001:3000"
     environment:
-      DATABASE_URL: mysql://root:pswd@mysql:3306/nest_blog_prod
+      DATABASE_URL: mysql://root:pswd@mysql:3306/dm_nest_prod
     restart: "always"
 
 networks:
