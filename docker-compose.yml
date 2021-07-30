@@ -3,7 +3,7 @@ version: "3.8"
 services:
   nest:
     build: .
-    image: zy/dm-nest:0.0.4
+    image: zy/dm-nest:0.0.3
     ports:
       - "3001:3000"
     depends_on:
