@@ -11,7 +11,7 @@ export class TripsService {
     return await this.prismaService.trip.create({ data: createTripDto });
   }
 
-  async findAll(page, size) {
+  async findAll(page: number, size: number) {
     return await this.prismaService.trip.findMany({ skip: (page - 1) * size, take: size });
   }
 

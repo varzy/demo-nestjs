@@ -6,8 +6,9 @@ import {
   Param,
   Delete,
   Query,
-  ParseIntPipe,
   Put,
+  ParseIntPipe,
+  DefaultValuePipe,
 } from '@nestjs/common';
 import { TripsService } from './trips.service';
 import { CreateTripDto } from './dto/create-trip.dto';
@@ -23,7 +24,10 @@ export class TripsController {
   }
 
   @Get()
-  findAll(@Query('page', ParseIntPipe) page = 1, @Query('size', ParseIntPipe) size = 10) {
+  findAll(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page,
+    @Query('size', new DefaultValuePipe(10), ParseIntPipe) size,
+  ) {
     return this.tripsService.findAll(page, size);
   }
 
