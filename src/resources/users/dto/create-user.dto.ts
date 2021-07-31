@@ -1,7 +1,9 @@
 import { IsEmail, IsOptional, IsPhoneNumber, IsString, MinLength } from 'class-validator';
+import { FieldUnique } from '../../../libs/validations/field-unique.validator';
 
 export class CreateUserDto {
   @IsString()
+  @FieldUnique({ table: 'users' })
   readonly username: string;
 
   @IsString()

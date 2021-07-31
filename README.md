@@ -1,3 +1,3 @@
-# NEST-BLOG
+# DM-NEST
 
-A blog project based on nestjs.
+A demo project for nestjs, prisma and more.

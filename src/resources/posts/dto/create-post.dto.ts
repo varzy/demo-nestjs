@@ -1,13 +1,14 @@
-import { IsArray, IsNumber, IsString, Validate } from 'class-validator';
-import { RequireFieldExist } from '../../../validations/require-field-exist.validation';
+import { IsArray, IsNumber, IsString } from 'class-validator';
+import { FieldExist } from '../../../libs/validations/field-exist.validator';
+import { FieldIn } from '../../../libs/validations/field-in.validator';
 
 export class CreatePostDto {
   @IsNumber()
-  @Validate(RequireFieldExist, ['users', 'id'])
+  @FieldExist({ table: 'users', field: 'id' })
   readonly author_id: number;
 
   @IsNumber()
-  @Validate(RequireFieldExist, ['categories', 'id'])
+  @FieldExist({ table: 'categories', field: 'id' })
   readonly category_id: number;
 
   @IsString()
@@ -17,5 +18,7 @@ export class CreatePostDto {
   readonly body: string;
 
   @IsArray()
+  @IsNumber({}, { each: true })
+  @FieldIn({ table: 'tags', field: 'id' })
   readonly tags: [];
 }
