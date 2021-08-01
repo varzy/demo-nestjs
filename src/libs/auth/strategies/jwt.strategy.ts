@@ -13,7 +13,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
+  /**
+   * @param payload 从 header 里面接收并解密后的用户信息。如果需要更详细的信息，可以考虑在这里从数据中再取一遍
+   */
   async validate(payload: any) {
-    return { userId: payload.sub, username: payload.username };
+    return payload;
   }
 }

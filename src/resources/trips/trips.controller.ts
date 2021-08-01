@@ -1,48 +1,35 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Param,
-  Delete,
-  Query,
-  Put,
-  ParseIntPipe,
-  DefaultValuePipe,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Query, Put } from '@nestjs/common';
 import { TripsService } from './trips.service';
 import { CreateTripDto } from './dto/create-trip.dto';
 import { UpdateTripDto } from './dto/update-trip.dto';
+import { FilterTripsDto } from './dto/filter-trips.dto';
 
 @Controller('trips')
 export class TripsController {
   constructor(private readonly tripsService: TripsService) {}
 
   @Post()
-  create(@Body() createTripDto: CreateTripDto) {
-    return this.tripsService.create(createTripDto);
+  async create(@Body() createTripDto: CreateTripDto) {
+    return await this.tripsService.create(createTripDto);
   }
 
   @Get()
-  findAll(
-    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page,
-    @Query('size', new DefaultValuePipe(10), ParseIntPipe) size,
-  ) {
-    return this.tripsService.findAll(page, size);
+  async findAll(@Query() { page = 1, size = 10 }: FilterTripsDto) {
+    return await this.tripsService.findAll(page, size);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: number) {
-    return this.tripsService.findOne(id);
+  async findOne(@Param('id') id: number) {
+    return await this.tripsService.findOne(id);
   }
 
   @Put(':id')
-  update(@Param('id') id: number, @Body() updateTripDto: UpdateTripDto) {
-    return this.tripsService.update(id, updateTripDto);
+  async update(@Param('id') id: number, @Body() updateTripDto: UpdateTripDto) {
+    return await this.tripsService.update(id, updateTripDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: number) {
-    return this.tripsService.remove(id);
+  async remove(@Param('id') id: number) {
+    return await this.tripsService.remove(id);
   }
 }

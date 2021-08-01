@@ -17,11 +17,14 @@ export class UsersService {
   }
 
   async findAll() {
-    return await this.prismaService.user.findMany({ include: { posts: true } });
+    return await this.prismaService.user.findMany({ include: { roles: true } });
   }
 
   async findOne(id: number) {
-    const user = await this.prismaService.user.findUnique({ where: { id } });
+    const user = await this.prismaService.user.findUnique({
+      where: { id },
+      include: { roles: true },
+    });
     if (!user) throw new NotFoundException('用户不存在');
 
     return user;

@@ -5,20 +5,20 @@ import { FieldIn } from '../../../libs/validations/field-in.validator';
 export class CreatePostDto {
   @IsNumber()
   @FieldExist({ table: 'users', field: 'id' })
-  readonly author_id: number;
+  author_id: number;
 
   @IsNumber()
   @FieldExist({ table: 'categories', field: 'id' })
-  readonly category_id: number;
+  category_id: number;
 
   @IsString()
-  readonly title: string;
+  title: string;
 
   @IsString()
-  readonly body: string;
+  body: string;
 
   @IsArray()
   @IsNumber({}, { each: true })
   @FieldIn({ table: 'tags', field: 'id' })
-  readonly tags: [];
+  tags: [];
 }

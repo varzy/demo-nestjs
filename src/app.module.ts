@@ -6,9 +6,10 @@ import { UsersModule } from './resources/users/users.module';
 import { CategoriesModule } from './resources/categories/categories.module';
 import { TagsModule } from './resources/tags/tags.module';
 import { PrismaModule } from './libs/prisma/prisma.module';
-import { AuthModule } from './resources/auth/auth.module';
+import { AuthModule } from './libs/auth/auth.module';
 import { TripsModule } from './resources/trips/trips.module';
 import { ValidatorsModule } from './libs/validations/validators.module';
+import { RolesModule } from './resources/roles/roles.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { ValidatorsModule } from './libs/validations/validators.module';
     TagsModule,
     AuthModule,
     TripsModule,
+    RolesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

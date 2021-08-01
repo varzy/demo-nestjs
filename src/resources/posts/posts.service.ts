@@ -20,8 +20,10 @@ export class PostsService {
     });
   }
 
-  async findAll() {
+  async findAll(page: number, size: number) {
     return await this.prismaService.post.findMany({
+      skip: (page - 1) * size,
+      take: size,
       include: { author: true, category: true, tags: true },
     });
   }
