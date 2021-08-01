@@ -10,7 +10,7 @@ import { version } from '../package.json';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // Global Settings
+  // Global Usages
   app.setGlobalPrefix('api').useGlobalPipes(new ValidationPipe({ transform: true }));
 
   // Class Validator
