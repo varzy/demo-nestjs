@@ -8,16 +8,16 @@ export class CreateUserDto {
 
   @IsString()
   @IsOptional()
-  readonly nickname: string;
+  readonly nickname?: string;
 
   @IsString()
   @IsOptional()
   @IsPhoneNumber('CN')
-  readonly phone: string;
+  readonly phone?: string;
 
   @IsEmail()
   @IsOptional()
-  readonly email: string;
+  readonly email?: string;
 
   @IsString()
   @MinLength(8)

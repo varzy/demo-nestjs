@@ -5,10 +5,10 @@ export class FilterTripsDto {
   @IsNumber()
   @IsOptional()
   @Type(() => Number)
-  page: number;
+  page?: number;
 
   @IsNumber()
   @IsOptional()
   @Type(() => Number)
-  size: number;
+  size?: number;
 }

@@ -20,5 +20,5 @@ export class CreatePostDto {
   @IsArray()
   @IsNumber({}, { each: true })
   @FieldIn({ table: 'tags', field: 'id' })
-  tags: [];
+  tags: number[];
 }

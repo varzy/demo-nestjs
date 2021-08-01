@@ -5,11 +5,14 @@ import { UpdateRoleDto } from './dto/update-role.dto';
 import { Roles } from '../../decorators/roles.decorator';
 import { JwtGuard } from '../../guards/jwt.guard';
 import { RolesGuard } from '../../guards/roles.guard';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Roles')
 @Controller('roles')
 export class RolesController {
   constructor(private readonly rolesService: RolesService) {}
 
+  @ApiBearerAuth()
   @UseGuards(JwtGuard)
   @Roles('Super')
   @Post()
@@ -17,18 +20,21 @@ export class RolesController {
     return await this.rolesService.create(createRoleDto);
   }
 
+  @ApiBearerAuth()
   @UseGuards(JwtGuard)
   @Get()
   async findAll() {
     return await this.rolesService.findAll();
   }
 
+  @ApiBearerAuth()
   @UseGuards(JwtGuard)
   @Get(':id')
   async findOne(@Param('id') id: string) {
     return await this.rolesService.findOne(+id);
   }
 
+  @ApiBearerAuth()
   @Roles('Super')
   @UseGuards(JwtGuard, RolesGuard)
   @Patch(':id')
@@ -36,6 +42,7 @@ export class RolesController {
     return await this.rolesService.update(+id, updateRoleDto);
   }
 
+  @ApiBearerAuth()
   @Roles('Super')
   @UseGuards(JwtGuard, RolesGuard)
   @Delete(':id')
