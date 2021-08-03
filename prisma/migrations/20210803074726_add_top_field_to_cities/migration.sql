@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE `cities` ADD COLUMN `is_top` INTEGER NOT NULL DEFAULT 0;

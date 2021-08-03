@@ -4,7 +4,6 @@ import { ValidationPipe } from '@nestjs/common';
 import { APP_CONFIG } from './config/app.config';
 import { useContainer } from 'class-validator';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { version } from '../package.json';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -20,7 +19,6 @@ async function bootstrap() {
     .addBearerAuth()
     .setTitle(APP_CONFIG.projectName)
     .setDescription(APP_CONFIG.projectDescription)
-    .setVersion(version)
     .build();
   SwaggerModule.setup('docs', app, SwaggerModule.createDocument(app, config));
 
