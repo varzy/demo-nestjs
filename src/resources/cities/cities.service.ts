@@ -30,7 +30,10 @@ export class CitiesService {
     const is_top = updateCityDto.is_top ?? city.is_top;
     const order = is_top ? updateCityDto.order ?? city.order : -1;
 
-    return await this.prismaService.city.update({ where: { id }, data: { ...updateCityDto, order: order, is_top: is_top } });
+    return await this.prismaService.city.update({
+      where: { id },
+      data: { ...updateCityDto, order: order, is_top: is_top },
+    });
   }
 
   async remove(id: number) {
