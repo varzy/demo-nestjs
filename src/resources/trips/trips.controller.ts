@@ -16,8 +16,8 @@ export class TripsController {
   }
 
   @Get()
-  async findAll(@Query() { page = 1, size = 10 }: FilterTripsDto) {
-    return await this.tripsService.findAll(page, size);
+  async findAll(@Query() filterTripsDto: FilterTripsDto) {
+    return await this.tripsService.findAll(filterTripsDto);
   }
 
   @Get(':id')

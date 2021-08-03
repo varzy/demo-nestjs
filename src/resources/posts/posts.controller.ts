@@ -16,8 +16,8 @@ export class PostsController {
   }
 
   @Get()
-  async findAll(@Query() { page = 1, size = 10 }: FilterPostsDto) {
-    return await this.postsService.findAll(page, size);
+  async findAll(@Query() filterPostsDto: FilterPostsDto) {
+    return await this.postsService.findAll(filterPostsDto);
   }
 
   @Get(':id')

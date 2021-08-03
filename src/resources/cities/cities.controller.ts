@@ -45,8 +45,13 @@ export class CitiesController {
     return await this.citiesService.remove(id);
   }
 
+  /**
+   * 获取某个城市的房源列表
+   * @param id
+   * @param findHousesDto
+   */
   @Get(':id/houses')
   async findHouses(@Param('id', ParseIntPipe) id: number, @Query() findHousesDto: FindHousesDto) {
-    return await this.citiesService.findHouses(id, findHousesDto.page, findHousesDto.size);
+    return await this.citiesService.findHouses(id, findHousesDto);
   }
 }

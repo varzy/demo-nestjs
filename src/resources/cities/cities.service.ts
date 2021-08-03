@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateCityDto } from './dto/create-city.dto';
 import { UpdateCityDto } from './dto/update-city.dto';
 import { PrismaService } from '../../libs/prisma/prisma.service';
+import { FindHousesDto } from './dto/find-houses.dto';
 
 @Injectable()
 export class CitiesService {
@@ -27,9 +28,9 @@ export class CitiesService {
     return await this.prismaService.city.delete({ where: { id } });
   }
 
-  async findHouses(id: number, page = 1, size = 10) {
+  async findHouses(id: number, findHousesDto: FindHousesDto) {
     return await this.prismaService.city
       .findUnique({ where: { id } })
-      .houses({ take: size, skip: (page - 1) * size });
+      .houses({ take: findHousesDto.size, ...this.prismaService.withPagination(findHousesDto) });
   }
 }

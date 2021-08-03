@@ -1,14 +1,14 @@
-import { IsNumber, IsOptional } from 'class-validator';
+import { IsInt, IsOptional } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class FilterTripsDto {
-  @IsNumber()
+  @IsInt()
   @IsOptional()
   @Type(() => Number)
-  page?: number;
+  page?: number = 1;
 
-  @IsNumber()
+  @IsInt()
   @IsOptional()
   @Type(() => Number)
-  size?: number;
+  size?: number = 10;
 }

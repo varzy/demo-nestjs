@@ -30,4 +30,11 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
       await app.close();
     });
   }
+
+  withPagination(dtoWithPageAndSize) {
+    return {
+      take: dtoWithPageAndSize.size,
+      skip: (dtoWithPageAndSize.page - 1) * dtoWithPageAndSize.size,
+    };
+  }
 }

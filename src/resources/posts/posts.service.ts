@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { PrismaService } from '../../libs/prisma/prisma.service';
+import { FilterPostsDto } from './dto/filter-posts.dto';
 
 @Injectable()
 export class PostsService {
@@ -20,11 +21,10 @@ export class PostsService {
     });
   }
 
-  async findAll(page: number, size: number) {
+  async findAll(filterPostsDto: FilterPostsDto) {
     return await this.prismaService.post.findMany({
-      skip: (page - 1) * size,
-      take: size,
       include: { author: true, category: true, tags: true },
+      ...this.prismaService.withPagination(filterPostsDto),
     });
   }
 

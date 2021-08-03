@@ -1,8 +1,20 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ParseIntPipe,
+  Query,
+} from '@nestjs/common';
 import { HousesService } from './houses.service';
 import { CreateHouseDto } from './dto/create-house.dto';
 import { UpdateHouseDto } from './dto/update-house.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { FilterHousesDto } from './dto/filter-houses.dto';
+import { FilterCustomerHousesDto } from './dto/filter-customer-houses.dto';
 
 @ApiTags('Houses')
 @Controller('houses')
@@ -15,8 +27,17 @@ export class HousesController {
   }
 
   @Get()
-  async findAll() {
-    return await this.housesService.findAll();
+  async findAll(@Query() filterHousesDto: FilterHousesDto) {
+    return await this.housesService.findAll(filterHousesDto);
+  }
+
+  /**
+   * 获取用户端使用的未下架的房源列表
+   * @param filterCustomerHousesDto
+   */
+  @Get('customers')
+  async findForCustomers(@Query() filterCustomerHousesDto: FilterCustomerHousesDto) {
+    return await this.housesService.findAll({ ...filterCustomerHousesDto, is_active: 1 });
   }
 
   @Get(':id')

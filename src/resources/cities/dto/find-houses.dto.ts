@@ -1,11 +1,14 @@
-import { IsNumber, IsOptional } from 'class-validator';
+import { IsInt, IsOptional } from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class FindHousesDto {
-  @IsNumber()
+  @IsInt()
   @IsOptional()
-  page?: number;
+  @Type(() => Number)
+  page?: number = 1;
 
-  @IsNumber()
+  @IsInt()
   @IsOptional()
-  size?: number;
+  @Type(() => Number)
+  size?: number = 10;
 }

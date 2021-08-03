@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateHouseDto } from './dto/create-house.dto';
 import { UpdateHouseDto } from './dto/update-house.dto';
 import { PrismaService } from '../../libs/prisma/prisma.service';
+import { FilterHousesDto } from './dto/filter-houses.dto';
 
 @Injectable()
 export class HousesService {
@@ -11,8 +12,15 @@ export class HousesService {
     return await this.prismaService.house.create({ data: createHouseDto });
   }
 
-  async findAll() {
-    return await this.prismaService.house.findMany();
+  async findAll(filterHousesDto: FilterHousesDto) {
+    const where: any = {};
+    if (filterHousesDto.title) where.title = { startsWith: filterHousesDto.title };
+    if (filterHousesDto.is_active) where.is_active = filterHousesDto.is_active;
+
+    return await this.prismaService.house.findMany({
+      where,
+      ...this.prismaService.withPagination(filterHousesDto),
+    });
   }
 
   async findOne(id: number) {
