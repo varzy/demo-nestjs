@@ -26,4 +26,10 @@ export class CitiesService {
   async remove(id: number) {
     return await this.prismaService.city.delete({ where: { id } });
   }
+
+  async findHouses(id: number, page = 1, size = 10) {
+    return await this.prismaService.city
+      .findUnique({ where: { id } })
+      .houses({ take: size, skip: (page - 1) * size });
+  }
 }

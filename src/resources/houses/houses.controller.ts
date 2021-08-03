@@ -2,7 +2,9 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from 
 import { HousesService } from './houses.service';
 import { CreateHouseDto } from './dto/create-house.dto';
 import { UpdateHouseDto } from './dto/update-house.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Houses')
 @Controller('houses')
 export class HousesController {
   constructor(private readonly housesService: HousesService) {}
