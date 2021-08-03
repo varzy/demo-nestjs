@@ -88,3 +88,34 @@ model Trip {
 
   @@map("trips")
 }
+
+model City {
+  id         Int      @id @default(autoincrement())
+  name       String
+  is_active  Int      @default(1) @db.TinyInt
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  houses House[]
+
+  @@map("cities")
+}
+
+model House {
+  id            Int      @id @default(autoincrement())
+  city_id       Int
+  title         String
+  type          Int      @db.TinyInt
+  bed_num       Int      @db.TinyInt
+  price         Int
+  current_price Int      @default(0)
+  cover         String
+  rating        Int      @db.TinyInt
+  is_active     Int      @default(1) @db.TinyInt
+  created_at    DateTime @default(now())
+  updated_at    DateTime @default(now()) @updatedAt
+
+  city City @relation(fields: [city_id], references: [id])
+
+  @@map("houses")
+}

@@ -10,6 +10,8 @@ import { AuthModule } from './libs/auth/auth.module';
 import { TripsModule } from './resources/trips/trips.module';
 import { ValidatorsModule } from './libs/validations/validators.module';
 import { RolesModule } from './resources/roles/roles.module';
+import { HousesModule } from './resources/houses/houses.module';
+import { CitiesModule } from './resources/cities/cities.module';
 
 @Module({
   imports: [
@@ -24,6 +26,8 @@ import { RolesModule } from './resources/roles/roles.module';
     AuthModule,
     TripsModule,
     RolesModule,
+    HousesModule,
+    CitiesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

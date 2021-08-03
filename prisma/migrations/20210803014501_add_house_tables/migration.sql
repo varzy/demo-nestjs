@@ -1,0 +1,31 @@
+-- CreateTable
+CREATE TABLE `cities` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(191) NOT NULL,
+    `is_active` TINYINT NOT NULL DEFAULT 1,
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updated_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `houses` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `city_id` INTEGER NOT NULL,
+    `title` VARCHAR(191) NOT NULL,
+    `type` TINYINT NOT NULL,
+    `bed_num` TINYINT NOT NULL,
+    `price` INTEGER NOT NULL,
+    `original_price` INTEGER NOT NULL,
+    `cover` VARCHAR(191) NOT NULL,
+    `rating` TINYINT NOT NULL,
+    `is_active` TINYINT NOT NULL DEFAULT 1,
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updated_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- AddForeignKey
+ALTER TABLE `houses` ADD FOREIGN KEY (`city_id`) REFERENCES `cities`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;

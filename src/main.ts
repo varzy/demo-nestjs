@@ -4,7 +4,6 @@ import { ValidationPipe } from '@nestjs/common';
 import { APP_CONFIG } from './config/app.config';
 import { useContainer } from 'class-validator';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-// const { version } = require('../package.json');
 import { version } from '../package.json';
 
 async function bootstrap() {
