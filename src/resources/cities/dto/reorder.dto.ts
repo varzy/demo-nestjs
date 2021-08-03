@@ -1,11 +1,20 @@
-import { IsArray } from 'class-validator';
+import { ArrayNotEmpty, IsArray, IsInt, ValidateNested } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 
-export interface ReorderItem {
+export class ReorderItemDto {
+  @IsInt()
   id: number;
+
+  @IsInt()
   order: number;
 }
 
 export class ReorderDto {
+  @ApiProperty({ type: [ReorderItemDto] })
   @IsArray()
-  list: ReorderItem[];
+  @ArrayNotEmpty()
+  @ValidateNested({ each: true })
+  @Type(() => ReorderItemDto)
+  list: ReorderItemDto[];
 }
