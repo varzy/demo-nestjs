@@ -14,6 +14,8 @@ import { CreateCityDto } from './dto/create-city.dto';
 import { UpdateCityDto } from './dto/update-city.dto';
 import { FindHousesDto } from './dto/find-houses.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { ReorderDto } from './dto/reorder.dto';
+import { FilterCitiesDto } from './dto/filter-cities.dto';
 
 @ApiTags('Cities')
 @Controller('cities')
@@ -26,8 +28,13 @@ export class CitiesController {
   }
 
   @Get()
-  async findAll() {
-    return await this.citiesService.findAll();
+  async findAll(@Query() filterCitiesDto: FilterCitiesDto) {
+    return await this.citiesService.findAll(filterCitiesDto);
+  }
+
+  @Post('reorder')
+  async reorder(@Body() reorderDto: ReorderDto) {
+    return await this.citiesService.reorder(reorderDto);
   }
 
   @Get(':id')

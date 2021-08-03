@@ -92,7 +92,8 @@ model Trip {
 model City {
   id         Int      @id @default(autoincrement())
   name       String
-  is_active  Int      @default(1) @db.TinyInt
+  order      Int      @default(-1)
+  is_top     Int      @default(0)
   created_at DateTime @default(now())
   updated_at DateTime @default(now()) @updatedAt
 

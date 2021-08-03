@@ -1,38 +1,43 @@
-import { IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsInt, IsOptional, IsString, Max, Min } from 'class-validator';
 
 export class CreateHouseDto {
-  @IsNumber()
+  @IsInt()
   city_id: number;
 
   @IsString()
   title: string;
 
   /**
-   * 1: 整套公寓
-   * 2: 整间 LOFT
-   * 3: 整套客房
-   * 4: 自如短租
+   * 1: 整套公寓; 2: 整间 LOFT; 3: 整套客房; 4: 自如短租
    */
-  @IsNumber()
+  @IsInt()
   type: number;
 
-  @IsNumber()
+  @IsInt()
   bed_num: number;
 
-  @IsNumber()
+  @IsInt()
   price: number;
 
-  @IsNumber()
+  @IsInt()
   @IsOptional()
   current_price?: number;
 
   @IsString()
   cover: string;
 
-  @IsNumber()
+  /**
+   * 从 1 - 10，每档 0.5 星。1 = 半星，10 = 五星
+   */
+  @IsInt()
+  @Min(1)
+  @Max(10)
   rating: number;
 
-  @IsNumber()
+  /**
+   * 0: 已下架; 1: 已上架
+   */
+  @IsInt()
   @IsOptional()
   is_active?: number;
 }

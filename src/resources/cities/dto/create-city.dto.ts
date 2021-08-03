@@ -1,10 +1,14 @@
-import { IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsInt, IsOptional, IsString } from 'class-validator';
 
 export class CreateCityDto {
   @IsString()
   name: string;
 
-  @IsNumber()
+  @IsInt()
   @IsOptional()
-  is_active?: number = 1;
+  order?: number;
+
+  @IsInt()
+  @IsOptional()
+  is_top?: number;
 }
