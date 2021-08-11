@@ -19,12 +19,12 @@ import { CitiesModule } from './resources/cities/cities.module';
     PrismaModule,
     ValidatorsModule,
     // Resources
+    TripsModule,
     PostsModule,
     UsersModule,
     CategoriesModule,
     TagsModule,
     AuthModule,
-    TripsModule,
     RolesModule,
     HousesModule,
     CitiesModule,

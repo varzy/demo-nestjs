@@ -22,10 +22,14 @@ export class PostsService {
   }
 
   async findAll(filterPostsDto: FilterPostsDto) {
-    return await this.prismaService.post.findMany({
-      include: { author: true, category: true, tags: true },
-      ...this.prismaService.withPagination(filterPostsDto),
-    });
+    return {
+      ...filterPostsDto,
+      total: await this.prismaService.post.count(),
+      list: await this.prismaService.post.findMany({
+        include: { author: true, category: true, tags: true },
+        ...this.prismaService.withPagination(filterPostsDto),
+      }),
+    };
   }
 
   async findOne(id: number) {

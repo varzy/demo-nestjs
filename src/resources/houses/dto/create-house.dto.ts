@@ -1,4 +1,4 @@
-import { IsInt, IsOptional, IsString, Max, Min } from 'class-validator';
+import { IsIn, IsInt, IsOptional, IsString, Max, Min } from 'class-validator';
 
 export class CreateHouseDto {
   @IsInt()
@@ -11,6 +11,7 @@ export class CreateHouseDto {
    * 1: 整套公寓; 2: 整间 LOFT; 3: 整套客房; 4: 自如短租
    */
   @IsInt()
+  @IsIn([1, 2, 3, 4])
   type: number;
 
   @IsInt()
