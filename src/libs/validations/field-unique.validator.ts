@@ -18,9 +18,6 @@ export class FieldUniqueValidator implements ValidatorConstraintInterface {
       `SELECT * FROM ${table} WHERE ${field} = ${formattedValue} LIMIT 1;`,
     );
 
-    console.log('-----------');
-    console.log(result);
-
     return !result.length;
   }
 
