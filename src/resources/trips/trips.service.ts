@@ -3,7 +3,6 @@ import { CreateTripDto } from './dto/create-trip.dto';
 import { UpdateTripDto } from './dto/update-trip.dto';
 import { PrismaService } from '../../libs/prisma/prisma.service';
 import { FilterTripsDto } from './dto/filter-trips.dto';
-import { count } from 'rxjs';
 
 @Injectable()
 export class TripsService {
@@ -17,9 +16,10 @@ export class TripsService {
     return {
       ...filterTripsDto,
       total: await this.prismaService.trip.count(),
-      list: await this.prismaService.trip.findMany(
-        this.prismaService.withPagination(filterTripsDto),
-      ),
+      list: await this.prismaService.trip.findMany({
+        ...this.prismaService.withPagination(filterTripsDto),
+        orderBy: { created_at: 'desc' },
+      }),
     };
   }
 

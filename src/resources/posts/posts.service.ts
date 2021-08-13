@@ -26,8 +26,9 @@ export class PostsService {
       ...filterPostsDto,
       total: await this.prismaService.post.count(),
       list: await this.prismaService.post.findMany({
-        include: { author: true, category: true, tags: true },
         ...this.prismaService.withPagination(filterPostsDto),
+        orderBy: { created_at: 'desc' },
+        include: { author: true, category: true, tags: true },
       }),
     };
   }
