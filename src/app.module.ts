@@ -12,6 +12,7 @@ import { ValidatorsModule } from './libs/validations/validators.module';
 import { RolesModule } from './resources/roles/roles.module';
 import { HousesModule } from './resources/houses/houses.module';
 import { CitiesModule } from './resources/cities/cities.module';
+import { CommentsModule } from './resources/comments/comments.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { CitiesModule } from './resources/cities/cities.module';
     RolesModule,
     HousesModule,
     CitiesModule,
+    CommentsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
