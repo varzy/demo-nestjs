@@ -39,6 +39,7 @@ export class CreateHouseDto {
    * 0: 已下架; 1: 已上架
    */
   @IsInt()
+  @IsIn([0, 1])
   @IsOptional()
   is_active?: number;
 }

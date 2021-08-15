@@ -19,12 +19,14 @@ export class HousesService {
 
     return await this.prismaService.house.findMany({
       where,
+      include: { city: true },
+      orderBy: { created_at: 'desc' },
       ...this.prismaService.withPagination(filterHousesDto),
     });
   }
 
   async findOne(id: number) {
-    return await this.prismaService.house.findUnique({ where: { id } });
+    return await this.prismaService.house.findUnique({ where: { id }, include: { city: true } });
   }
 
   async update(id: number, updateHouseDto: UpdateHouseDto) {

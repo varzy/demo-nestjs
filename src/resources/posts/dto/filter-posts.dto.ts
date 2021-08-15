@@ -1,4 +1,4 @@
-import { IsInt, IsOptional } from 'class-validator';
+import { IsInt, IsOptional, Max } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class FilterPostsDto {
@@ -9,6 +9,7 @@ export class FilterPostsDto {
 
   @IsInt()
   @IsOptional()
+  @Max(100)
   @Type(() => Number)
   size?: number = 10;
 }

@@ -1,4 +1,4 @@
-import { IsInt, IsOptional, IsString } from 'class-validator';
+import { IsIn, IsInt, IsOptional, IsString } from 'class-validator';
 
 export class CreateCityDto {
   @IsString()
@@ -9,6 +9,7 @@ export class CreateCityDto {
   order?: number;
 
   @IsInt()
+  @IsIn([0, 1])
   @IsOptional()
   is_top?: number;
 }
