@@ -13,7 +13,7 @@ export class RolesController {
   constructor(private readonly rolesService: RolesService) {}
 
   @ApiBearerAuth()
-  @UseGuards(JwtGuard)
+  @UseGuards(JwtGuard, RolesGuard)
   @Roles('Super')
   @Post()
   async create(@Body() createRoleDto: CreateRoleDto) {

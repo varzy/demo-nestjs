@@ -80,13 +80,9 @@ model Post {
 
 model Comment {
   id          Int      @id @default(autoincrement())
-  /// 评论所属类型
-  client      String
-  /// 话题 id
+  topic       String
   topic_id    Int
-  /// 父评论 id。为 0 时表示顶级评论
   parent_id   Int      @default(0)
-  /// 要回复的子评论 id。为 0 时表示没有回复对象
   to_reply_id Int      @default(0)
   body        String   @db.Text
   created_at  DateTime @default(now())
