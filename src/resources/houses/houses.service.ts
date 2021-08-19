@@ -17,12 +17,16 @@ export class HousesService {
     if (filterHousesDto.title) where.title = { startsWith: filterHousesDto.title };
     if (filterHousesDto.is_active) where.is_active = filterHousesDto.is_active;
 
-    return await this.prismaService.house.findMany({
-      where,
-      include: { city: true },
-      orderBy: { created_at: 'desc' },
-      ...this.prismaService.withPagination(filterHousesDto),
-    });
+    return {
+      ...filterHousesDto,
+      total: await this.prismaService.house.count(),
+      list: await this.prismaService.house.findMany({
+        where,
+        include: { city: true },
+        orderBy: { created_at: 'desc' },
+        ...this.prismaService.withPagination(filterHousesDto),
+      }),
+    };
   }
 
   async findOne(id: number) {
