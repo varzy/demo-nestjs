@@ -7,7 +7,7 @@ import { LocalGuard } from '../../guards/local.guard';
 import { RolesGuard } from '../../guards/roles.guard';
 import { JwtGuard } from '../../guards/jwt.guard';
 import { Roles } from '../../decorators/roles.decorator';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Users')
 @Controller('users')
@@ -36,6 +36,13 @@ export class UsersController {
   @Get()
   async findAll() {
     return await this.usersService.findAll();
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(JwtGuard)
+  @Post('myself')
+  async myself(@Req() req) {
+    return this.usersService.findOne(req.user.id);
   }
 
   @Get(':id')
